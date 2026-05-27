@@ -1,430 +1,817 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teen Titans | Base de Datos</title>
-    <style>
-        /* --- ESTILOS GLOBALES (CSS) --- */
-        :root {
-            --bg-principal: #0b0c10;
-            --bg-tarjeta: #1f2833;
-            --texto-claro: #c5c6c7;
-            --texto-brillante: #ffffff;
-            /* Colores de los Personajes */
-            --robin: #e63946;
-            --robin-sec: #ffb703;
-            --raven: #6f2dbd;
-            --raven-sec: #3c096c;
-            --cyborg: #00b4d8;
-            --cyborg-sec: #0077b6;
-            --starfire: #ff007f;
-            --starfire-sec: #ffb703;
-            --beastboy: #38b000;
-            --beastboy-sec: #70e000;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teen Titans | Ultimate Edition</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--bg-principal);
-            color: var(--texto-claro);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-            transition: background 0.5s ease;
-        }
+  <style>
 
-        header {
-            text-align: center;
-            margin: 30px 0;
-            z-index: 10;
-        }
+    :root{
+      --bg:#050816;
+      --card:#111827;
+      --text:#e5e7eb;
 
-        header h1 {
-            font-size: 3rem;
-            color: var(--texto-brillante);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
-        }
+      --robin:#ff3b3b;
+      --raven:#9b5cff;
+      --cyborg:#00d9ff;
+      --starfire:#ff8c00;
+      --beastboy:#39ff88;
+    }
 
-        header p {
-            color: #858585;
-            margin-top: 5px;
-            font-size: 1.1rem;
-        }
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
 
-        /* --- CONTENEDOR DE PERSONAJES --- */
-        .titans-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
-            max-width: 1200px;
-            width: 90%;
-            margin-bottom: 50px;
-        }
+    body{
+      background:
+      radial-gradient(circle at top left,rgba(155,92,255,.12),transparent 25%),
+      radial-gradient(circle at bottom right,rgba(0,217,255,.12),transparent 25%),
+      linear-gradient(135deg,#050816,#0b1023,#111827);
+      color:var(--text);
+      overflow-x:hidden;
+      transition:background .5s ease;
+    }
 
-        /* --- TARJETAS PRO --- */
-        .titan-card {
-            background-color: var(--bg-tarjeta);
-            border-radius: 20px;
-            width: 220px;
-            height: 320px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 20px;
-        }
+    html{
+      scroll-behavior:smooth;
+    }
 
-        .titan-card:hover {
-            transform: translateY(-15px) scale(1.03);
-        }
+    .navbar{
+      position:fixed;
+      width:100%;
+      top:0;
+      z-index:999;
+      padding:18px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(0,0,0,.25);
+      backdrop-filter:blur(15px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
 
-        /* Renderizado de los Dibujos/SVGs */
-        .titan-img-container {
-            position: absolute;
-            top: 15px;
-            width: 85%;
-            height: 60%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
+    .logo{
+      font-size:1.8rem;
+      font-weight:800;
+      background:linear-gradient(90deg,#00d9ff,#9b5cff,#ff3b3b);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      letter-spacing:2px;
+    }
 
-        .titan-card:hover .titan-img-container {
-            transform: scale(1.1);
-        }
+    .nav-links{
+      display:flex;
+      gap:20px;
+    }
 
-        .titan-img-container svg {
-            width: 100%;
-            height: 100%;
-            drop-shadow: 0px 5px 15px rgba(0,0,0,0.5);
-        }
+    .nav-links a{
+      text-decoration:none;
+      color:white;
+      transition:.3s;
+      opacity:.8;
+    }
 
-        .titan-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--texto-brillante);
-            z-index: 2;
-            text-transform: uppercase;
-            text-align: center;
-            letter-spacing: 1px;
-        }
+    .nav-links a:hover{
+      color:#00d9ff;
+      opacity:1;
+    }
 
-        /* Colores específicos por Tarjeta y Neón */
-        .card-robin:hover { border-color: var(--robin); box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4); }
-        .card-raven:hover { border-color: var(--raven); box-shadow: 0 10px 30px rgba(111, 45, 189, 0.4); }
-        .card-cyborg:hover { border-color: var(--cyborg); box-shadow: 0 10px 30px rgba(0, 180, 216, 0.4); }
-        .card-starfire:hover { border-color: var(--starfire); box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4); }
-        .card-beastboy:hover { border-color: var(--beastboy); box-shadow: 0 10px 30px rgba(56, 176, 0, 0.4); }
+    .hero{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:140px 8% 80px;
+      position:relative;
+    }
 
-        /* --- PANTALLA DE DETALLE (POPUP DINÁMICO) --- */
-        .detail-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            z-index: 100;
-        }
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:500px;
+      height:500px;
+      background:#9b5cff;
+      border-radius:50%;
+      filter:blur(180px);
+      opacity:.18;
+      animation:float 6s ease-in-out infinite;
+    }
 
-        .detail-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+    @keyframes float{
+      0%,100%{transform:translateY(0px);}
+      50%{transform:translateY(-30px);}
+    }
 
-        .detail-modal {
-            background: var(--bg-tarjeta);
-            width: 90%;
-            max-width: 700px;
-            border-radius: 25px;
-            padding: 40px;
-            position: relative;
-            transform: scale(0.7);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid transparent;
-            display: flex;
-            gap: 30px;
-        }
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width:900px;
+    }
 
-        .detail-overlay.active .detail-modal {
-            transform: scale(1);
-        }
+    .hero h1{
+      font-size:6rem;
+      line-height:1;
+      margin-bottom:25px;
+      text-transform:uppercase;
+      font-weight:800;
+      background:linear-gradient(90deg,#00d9ff,#9b5cff,#ff3b3b);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 2rem;
-            color: var(--texto-claro);
-            cursor: pointer;
-            transition: color 0.2s;
-        }
+    .hero p{
+      font-size:1.15rem;
+      line-height:1.9;
+      color:#cfd5e9;
+      margin-bottom:35px;
+    }
 
-        .close-btn:hover {
-            color: var(--texto-brillante);
-        }
+    .hero-buttons{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
 
-        .modal-left {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0,0,0,0.2);
-            border-radius: 15px;
-            padding: 10px;
-        }
+    .btn{
+      border:none;
+      padding:15px 32px;
+      border-radius:60px;
+      cursor:pointer;
+      transition:.35s;
+      font-weight:600;
+      font-size:1rem;
+    }
 
-        .modal-left svg {
-            width: 100%;
-            max-height: 250px;
-        }
+    .btn-primary{
+      background:linear-gradient(90deg,#00d9ff,#9b5cff);
+      color:white;
+      box-shadow:0 0 25px rgba(0,217,255,.35);
+    }
 
-        .modal-right {
-            flex: 1.5;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    .btn-secondary{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      color:white;
+    }
 
-        .modal-title {
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-        }
+    .btn:hover{
+      transform:translateY(-5px) scale(1.04);
+    }
 
-        .modal-power {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            display: inline-block;
-            width: fit-content;
-            color: #000;
-        }
+    section{
+      padding:100px 8%;
+    }
 
-        .modal-desc {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #e0e0e0;
-        }
+    .section-title{
+      text-align:center;
+      margin-bottom:70px;
+    }
 
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .detail-modal {
-                flex-direction: column;
-                padding: 25px;
-                text-align: center;
-            }
-            .modal-left svg {
-                max-height: 150px;
-            }
-            .modal-power {
-                margin: 10px auto;
-            }
-        }
-    </style>
+    .section-title h2{
+      font-size:3rem;
+      margin-bottom:12px;
+    }
+
+    .section-title p{
+      max-width:700px;
+      margin:auto;
+      color:#c9cde0;
+      line-height:1.8;
+    }
+
+    .titans-container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:30px;
+    }
+
+    .titan-card{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      min-height:420px;
+      position:relative;
+      overflow:hidden;
+      cursor:pointer;
+      transition:.45s;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:28px;
+      backdrop-filter:blur(10px);
+    }
+
+    .titan-card::before{
+      content:"";
+      position:absolute;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      top:-60px;
+      right:-60px;
+      opacity:.18;
+    }
+
+    .titan-card:hover{
+      transform:translateY(-15px) scale(1.02);
+    }
+
+    .titan-img-container{
+      position:absolute;
+      top:25px;
+      left:50%;
+      transform:translateX(-50%);
+      width:70%;
+      height:220px;
+      transition:.4s;
+      filter:drop-shadow(0 10px 25px rgba(0,0,0,.5));
+    }
+
+    .titan-card:hover .titan-img-container{
+      transform:translateX(-50%) scale(1.08);
+    }
+
+    .titan-img-container svg{
+      width:100%;
+      height:100%;
+    }
+
+    .titan-role{
+      font-size:.9rem;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:8px;
+      opacity:.9;
+    }
+
+    .titan-name{
+      font-size:2rem;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .titan-desc{
+      line-height:1.7;
+      color:#d5d9ea;
+      font-size:.95rem;
+    }
+
+    .card-robin::before{background:var(--robin);}
+    .card-raven::before{background:var(--raven);}
+    .card-cyborg::before{background:var(--cyborg);}
+    .card-starfire::before{background:var(--starfire);}
+    .card-beastboy::before{background:var(--beastboy);}
+
+    .card-robin:hover{border-color:var(--robin);box-shadow:0 20px 40px rgba(255,59,59,.25);}
+    .card-raven:hover{border-color:var(--raven);box-shadow:0 20px 40px rgba(155,92,255,.25);}
+    .card-cyborg:hover{border-color:var(--cyborg);box-shadow:0 20px 40px rgba(0,217,255,.25);}
+    .card-starfire:hover{border-color:var(--starfire);box-shadow:0 20px 40px rgba(255,140,0,.25);}
+    .card-beastboy:hover{border-color:var(--beastboy);box-shadow:0 20px 40px rgba(57,255,136,.25);}
+
+    .card-robin .titan-role,.card-robin .titan-name{color:var(--robin);}
+    .card-raven .titan-role,.card-raven .titan-name{color:var(--raven);}
+    .card-cyborg .titan-role,.card-cyborg .titan-name{color:var(--cyborg);}
+    .card-starfire .titan-role,.card-starfire .titan-name{color:var(--starfire);}
+    .card-beastboy .titan-role,.card-beastboy .titan-name{color:var(--beastboy);}
+
+    .quote-section{
+      text-align:center;
+    }
+
+    .quote-box{
+      max-width:850px;
+      margin:auto;
+      padding:60px 40px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:30px;
+      backdrop-filter:blur(10px);
+    }
+
+    .quote-box h2{
+      font-size:3rem;
+      color:#00d9ff;
+      margin-bottom:25px;
+    }
+
+    #quote{
+      font-size:1.6rem;
+      line-height:1.8;
+      min-height:80px;
+    }
+
+    .detail-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.85);
+      backdrop-filter:blur(10px);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      opacity:0;
+      pointer-events:none;
+      transition:.4s;
+      z-index:10000;
+      padding:20px;
+    }
+
+    .detail-overlay.active{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .detail-modal{
+      width:100%;
+      max-width:850px;
+      background:#0f172a;
+      border-radius:35px;
+      border:2px solid rgba(255,255,255,.1);
+      padding:40px;
+      display:flex;
+      gap:30px;
+      position:relative;
+      transform:scale(.75);
+      transition:.4s;
+      overflow:hidden;
+    }
+
+    .detail-overlay.active .detail-modal{
+      transform:scale(1);
+    }
+
+    .close-btn{
+      position:absolute;
+      top:20px;
+      right:25px;
+      font-size:2rem;
+      cursor:pointer;
+      color:white;
+    }
+
+    .modal-left{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:rgba(255,255,255,.03);
+      border-radius:20px;
+      padding:20px;
+    }
+
+    .modal-left svg{
+      width:100%;
+      max-height:300px;
+    }
+
+    .modal-right{
+      flex:1.4;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .modal-title{
+      font-size:3rem;
+      margin-bottom:15px;
+      font-weight:800;
+    }
+
+    .modal-power{
+      width:fit-content;
+      padding:8px 14px;
+      border-radius:12px;
+      color:black;
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    .modal-desc{
+      line-height:1.9;
+      color:#dbe2f5;
+    }
+
+    footer{
+      text-align:center;
+      padding:35px;
+      color:#aab1c8;
+    }
+
+    .spark{
+      position:fixed;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      pointer-events:none;
+      animation:spark .9s linear forwards;
+      z-index:99999;
+    }
+
+    @keyframes spark{
+      to{
+        transform:translateY(-40px) scale(0);
+        opacity:0;
+      }
+    }
+
+    @media(max-width:900px){
+
+      .hero h1{
+        font-size:3.8rem;
+      }
+
+      .detail-modal{
+        flex-direction:column;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      .navbar{
+        flex-direction:column;
+        gap:15px;
+      }
+
+      .hero{
+        padding-top:190px;
+      }
+
+      .hero h1{
+        font-size:2.8rem;
+      }
+
+      .section-title h2,
+      .quote-box h2{
+        font-size:2.1rem;
+      }
+
+      #quote{
+        font-size:1.2rem;
+      }
+
+      .modal-title{
+        font-size:2.2rem;
+      }
+
+    }
+
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Teen Titans</h1>
-        <p>Base de Datos de la Torre de los Titanes</p>
-    </header>
+  <nav class="navbar">
+    <div class="logo">TEEN TITANS</div>
 
-    <main class="titans-container">
+    <div class="nav-links">
+      <a href="#titans">Titanes</a>
+      <a href="#quotes">Frases</a>
+    </div>
+  </nav>
 
-        <div class="titan-card card-robin" onclick="showTitan('robin')">
-            <div class="titan-img-container">
-                <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="#e63946"/>
-                    <path d="M20 45 Q 35 35, 50 45 Q 65 35, 80 45 Q 70 60, 50 52 Q 30 60, 20 45 Z" fill="#000"/>
-                    <ellipse cx="38" cy="46" rx="6" ry="3" fill="#fff" transform="rotate(-5 38 46)"/>
-                    <ellipse cx="62" cy="46" rx="6" ry="3" fill="#fff" transform="rotate(5 62 46)"/>
-                    <path d="M15 55 L 30 90 L 50 65 L 70 90 L 85 55 Z" fill="#ffb703"/>
-                </svg>
-            </div>
-            <div class="titan-name">Robin</div>
-        </div>
+  <header class="hero">
 
-        <div class="titan-card card-raven" onclick="showTitan('raven')">
-            <div class="titan-img-container">
-                <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="#3c096c"/>
-                    <path d="M50 15 C 25 15, 20 50, 25 85 C 35 70, 45 65, 50 65 C 55 65, 65 70, 75 85 C 80 50, 75 15, 50 15 Z" fill="#6f2dbd"/>
-                    <path d="M50 30 L 35 55 L 65 55 Z" fill="#0b0c10"/>
-                    <polygon points="50,58 46,64 54,64" fill="#ff0055"/> 
-                </svg>
-            </div>
-            <div class="titan-name">Raven</div>
-        </div>
+    <div class="hero-content">
 
-        <div class="titan-card card-cyborg" onclick="showTitan('cyborg')">
-            <div class="titan-img-container">
-                <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="#2b2d42"/>
-                    <path d="M50 20 L 80 20 L 80 80 L 50 80 Z" fill="#8d99ae"/>
-                    <circle cx="65" cy="45" r="10" fill="#00b4d8"/>
-                    <circle cx="65" cy="45" r="4" fill="#ef233c"/>
-                    <rect x="30" y="38" width="15" height="6" rx="3" fill="#8d99ae"/>
-                    <path d="M40 70 Q 50 60, 60 70" stroke="#fff" stroke-width="4" fill="none"/>
-                </svg>
-            </div>
-            <div class="titan-name">Cyborg</div>
-        </div>
+      <h1>Teen Titans</h1>
 
-        <div class="titan-card card-starfire" onclick="showTitan('starfire')">
-            <div class="titan-img-container">
-                <svg viewBox="0 0 100 100">
-                    <path d="M50 10 C 10 10, 10 70, 25 95 C 40 70, 60 70, 75 95 C 90 70, 90 10, 50 10 Z" fill="#ff007f"/>
-                    <circle cx="50" cy="50" r="30" fill="#ffb703"/>
-                    <ellipse cx="40" cy="48" rx="7" ry="5" fill="#38b000"/>
-                    <ellipse cx="60" cy="48" rx="7" ry="5" fill="#38b000"/>
-                    <circle cx="40" cy="48" r="2" fill="#fff"/>
-                    <circle cx="60" cy="48" r="2" fill="#fff"/>
-                </svg>
-            </div>
-            <div class="titan-name">Starfire</div>
-        </div>
+      <p>
+        Una experiencia web futurista inspirada en los héroes más icónicos de Jump City.
+        Cada personaje tiene su propia energía, colores, efectos y personalidad.
+      </p>
 
-        <div class="titan-card card-beastboy" onclick="showTitan('beastboy')">
-            <div class="titan-img-container">
-                <svg viewBox="0 0 100 100">
-                    <path d="M15 40 L 30 45 L 25 30 Z" fill="#38b000"/>
-                    <path d="M85 40 L 70 45 L 75 30 Z" fill="#38b000"/>
-                    <circle cx="50" cy="55" r="32" fill="#38b000"/>
-                    <path d="M25 35 Q 50 15, 75 35 C 70 25, 30 25, 25 35 Z" fill="#70e000"/>
-                    <ellipse cx="40" cy="52" rx="5" ry="4" fill="#fff"/>
-                    <ellipse cx="60" cy="52" rx="5" ry="4" fill="#fff"/>
-                    <polygon points="50,65 47,72 53,72" fill="#222"/>
-                </svg>
-            </div>
-            <div class="titan-name">Beast Boy</div>
-        </div>
+      <div class="hero-buttons">
 
-    </main>
+        <button class="btn btn-primary" onclick="changeQuote()">
+          Activar Frase ⚡
+        </button>
 
-    <div class="detail-overlay" id="detailOverlay" onclick="closeTitan()">
-        <div class="detail-modal" id="detailModal" onclick="event.stopPropagation()">
-            <span class="close-btn" onclick="closeTitan()">&times;</span>
-            <div class="modal-left" id="modalSvgContainer">
-                </div>
-            <div class="modal-right">
-                <h2 class="modal-title" id="modalTitle">Nombre</h2>
-                <span class="modal-power" id="modalPower">Poder</span>
-                <p class="modal-desc" id="modalDesc">Descripción larga del personaje...</p>
-            </div>
-        </div>
+        <button class="btn btn-secondary" onclick="scrollTitans()">
+          Explorar Titanes 🛡️
+        </button>
+
+      </div>
+
     </div>
 
-    <script>
-        /* --- LÓGICA INTERACTIVA (JAVASCRIPT) --- */
-        
-        // Data de los personajes pro
-        const titansData = {
-            robin: {
-                name: "Robin",
-                power: "Líder & Maestro de Artes Marciales",
-                desc: "Dick Grayson es el líder estratega de los Titanes. No tiene superpoderes, pero lo compensa con una agilidad asombrosa, tecnología de punta, gadgets y una determinación inquebrantable para proteger Jump City.",
-                color: "#e63946",
-                shadow: "rgba(230, 57, 70, 0.5)"
-            },
-            raven: {
-                name: "Raven",
-                power: "Magia Oscura & Telequinesis",
-                desc: "Hija híbrida del demonio Trigon. Raven es un ser de enorme poder místico. Debe mantener sus emociones bajo estricto control ('Azarath Metrion Zinthos') para evitar que su lado oscuro destruya todo a su alrededor.",
-                color: "#6f2dbd",
-                shadow: "rgba(111, 45, 189, 0.5)"
-            },
-            cyborg: {
-                name: "Cyborg",
-                power: "Tecnopatía & Cañón de Iones",
-                desc: "Mitad humano y mitad máquina, Victor Stone es el genio tecnológico y el músculo del equipo. Diseñó el auto de los titanes y la Torre. Le encantan los videojuegos, la carne asada y gritar ¡BOOYAH!",
-                color: "#00b4d8",
-                shadow: "rgba(0, 180, 216, 0.5)"
-            },
-            starfire: {
-                name: "Starfire",
-                power: "Energía Estelar & Vuelo",
-                desc: "Princesa del planeta Tamaran. Aunque es increíblemente dulce, amable y le encantan los gatos terrestres, posee una fuerza colosal y puede disparar ráfagas de energía ultra destructiva (Starbolts) cuando se enfada.",
-                color: "#ff007f",
-                shadow: "rgba(255, 0, 127, 0.5)"
-            },
-            beastboy: {
-                name: "Chico Bestia",
-                power: "Metamorfosis Animal",
-                desc: "Garfield Logan tiene el superpoder de transformarse en cualquier animal del planeta (o alienígena) que haya visto, manteniendo siempre su característico color verde. Es el bromista del grupo y un vegetariano de corazón.",
-                color: "#38b000",
-                shadow: "rgba(56, 176, 0, 0.5)"
-            }
-        };
+  </header>
 
-        const overlay = document.getElementById('detailOverlay');
-        const modal = document.getElementById('detailModal');
+  <section id="titans">
 
-        function showTitan(key) {
-            const titan = titansData[key];
-            
-            // Inyectar datos en el modal
-            document.getElementById('modalTitle').innerText = titan.name;
-            document.getElementById('modalTitle').style.color = titan.color;
-            
-            const powerBadge = document.getElementById('modalPower');
-            powerBadge.innerText = titan.power;
-            powerBadge.style.backgroundColor = titan.color;
-            
-            document.getElementById('modalDesc').innerText = titan.desc;
-            
-            // Clonar el dibujo SVG de la tarjeta para ponerlo en el modal
-            const originalCard = document.querySelector(`.card-${key} .titan-img-container`);
-            document.getElementById('modalSvgContainer').innerHTML = originalCard.innerHTML;
-            
-            // Cambiar bordes y sombras del modal según el personaje
-            modal.style.borderColor = titan.color;
-            modal.style.boxShadow = `0 20px 50px ${titan.shadow}`;
-            
-            // Cambiar sutilmente el fondo general
-            document.body.style.backgroundColor = "#050608";
+    <div class="section-title">
+      <h2>Base de Datos de Titanes</h2>
 
-            // Mostrar modal con animación
-            overlay.classList.add('active');
-        }
+      <p>
+        Selecciona cualquier personaje para abrir una ficha interactiva
+        con información completa, efectos visuales y animaciones dinámicas.
+      </p>
+    </div>
 
-        function closeTitan() {
-            overlay.classList.remove('active');
-            document.body.style.backgroundColor = "var(--bg-principal)";
-        }
+    <div class="titans-container">
 
-        // Cerrar con la tecla Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeTitan();
-        });
-    </script>
+      <div class="titan-card card-robin" onclick="showTitan('robin')">
+
+        <div class="titan-img-container">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#e63946"/>
+            <path d="M20 45 Q 35 35, 50 45 Q 65 35, 80 45 Q 70 60, 50 52 Q 30 60, 20 45 Z" fill="#000"/>
+            <ellipse cx="38" cy="46" rx="6" ry="3" fill="#fff"/>
+            <ellipse cx="62" cy="46" rx="6" ry="3" fill="#fff"/>
+            <path d="M15 55 L 30 90 L 50 65 L 70 90 L 85 55 Z" fill="#ffb703"/>
+          </svg>
+        </div>
+
+        <div class="titan-role">Líder Estratégico</div>
+        <div class="titan-name">Robin</div>
+
+        <div class="titan-desc">
+          Maestro del combate y líder táctico del equipo.
+        </div>
+
+      </div>
+
+      <div class="titan-card card-raven" onclick="showTitan('raven')">
+
+        <div class="titan-img-container">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#3c096c"/>
+            <path d="M50 15 C 25 15, 20 50, 25 85 C 35 70, 45 65, 50 65 C 55 65, 65 70, 75 85 C 80 50, 75 15, 50 15 Z" fill="#6f2dbd"/>
+            <path d="M50 30 L 35 55 L 65 55 Z" fill="#0b0c10"/>
+            <polygon points="50,58 46,64 54,64" fill="#ff0055"/>
+          </svg>
+        </div>
+
+        <div class="titan-role">Magia Oscura</div>
+        <div class="titan-name">Raven</div>
+
+        <div class="titan-desc">
+          Poder místico y energía oscura controlada.
+        </div>
+
+      </div>
+
+      <div class="titan-card card-cyborg" onclick="showTitan('cyborg')">
+
+        <div class="titan-img-container">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#2b2d42"/>
+            <path d="M50 20 L 80 20 L 80 80 L 50 80 Z" fill="#8d99ae"/>
+            <circle cx="65" cy="45" r="10" fill="#00b4d8"/>
+            <circle cx="65" cy="45" r="4" fill="#ef233c"/>
+            <rect x="30" y="38" width="15" height="6" rx="3" fill="#8d99ae"/>
+            <path d="M40 70 Q 50 60, 60 70" stroke="#fff" stroke-width="4" fill="none"/>
+          </svg>
+        </div>
+
+        <div class="titan-role">Tecnología Suprema</div>
+        <div class="titan-name">Cyborg</div>
+
+        <div class="titan-desc">
+          Mitad humano, mitad máquina y totalmente legendario.
+        </div>
+
+      </div>
+
+      <div class="titan-card card-starfire" onclick="showTitan('starfire')">
+
+        <div class="titan-img-container">
+          <svg viewBox="0 0 100 100">
+            <path d="M50 10 C 10 10, 10 70, 25 95 C 40 70, 60 70, 75 95 C 90 70, 90 10, 50 10 Z" fill="#ff007f"/>
+            <circle cx="50" cy="50" r="30" fill="#ffb703"/>
+            <ellipse cx="40" cy="48" rx="7" ry="5" fill="#38b000"/>
+            <ellipse cx="60" cy="48" rx="7" ry="5" fill="#38b000"/>
+          </svg>
+        </div>
+
+        <div class="titan-role">Energía Estelar</div>
+        <div class="titan-name">Starfire</div>
+
+        <div class="titan-desc">
+          Princesa tamaraniana llena de poder cósmico.
+        </div>
+
+      </div>
+
+      <div class="titan-card card-beastboy" onclick="showTitan('beastboy')">
+
+        <div class="titan-img-container">
+          <svg viewBox="0 0 100 100">
+            <path d="M15 40 L 30 45 L 25 30 Z" fill="#38b000"/>
+            <path d="M85 40 L 70 45 L 75 30 Z" fill="#38b000"/>
+            <circle cx="50" cy="55" r="32" fill="#38b000"/>
+            <path d="M25 35 Q 50 15, 75 35 C 70 25, 30 25, 25 35 Z" fill="#70e000"/>
+            <ellipse cx="40" cy="52" rx="5" ry="4" fill="#fff"/>
+            <ellipse cx="60" cy="52" rx="5" ry="4" fill="#fff"/>
+          </svg>
+        </div>
+
+        <div class="titan-role">Metamorfosis Animal</div>
+        <div class="titan-name">Beast Boy</div>
+
+        <div class="titan-desc">
+          El bromista verde capaz de convertirse en cualquier animal.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="quote-section" id="quotes">
+
+    <div class="quote-box">
+
+      <h2>Frases Legendarias</h2>
+
+      <p id="quote">
+        "¡Los Teen Titans nunca se rinden!"
+      </p>
+
+    </div>
+
+  </section>
+
+  <div class="detail-overlay" id="detailOverlay" onclick="closeTitan()">
+
+    <div class="detail-modal" id="detailModal" onclick="event.stopPropagation()">
+
+      <span class="close-btn" onclick="closeTitan()">×</span>
+
+      <div class="modal-left" id="modalSvgContainer"></div>
+
+      <div class="modal-right">
+
+        <h2 class="modal-title" id="modalTitle"></h2>
+
+        <span class="modal-power" id="modalPower"></span>
+
+        <p class="modal-desc" id="modalDesc"></p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    Teen Titans Ultimate Edition ⚡
+  </footer>
+
+  <script>
+
+    const quotes = [
+      '"¡Booyah!" — Cyborg',
+      '"Azarath Metrion Zinthos" — Raven',
+      '"¡Titanes juntos!" — Robin',
+      '"¡La amistad es poder!" — Starfire',
+      '"Ser raro es genial." — Beast Boy'
+    ];
+
+    function changeQuote(){
+
+      const quote = document.getElementById('quote');
+
+      quote.style.opacity = '0';
+      quote.style.transform = 'translateY(15px)';
+
+      setTimeout(()=>{
+
+        quote.innerText = quotes[Math.floor(Math.random()*quotes.length)];
+
+        quote.style.opacity = '1';
+        quote.style.transform = 'translateY(0px)';
+
+      },250);
+
+    }
+
+    function scrollTitans(){
+
+      document.getElementById('titans').scrollIntoView({
+        behavior:'smooth'
+      });
+
+    }
+
+    const titansData = {
+
+      robin:{
+        name:'Robin',
+        power:'Liderazgo & Combate',
+        desc:'Robin es el estratega principal del equipo. Inteligente, intenso y obsesionado con proteger Jump City.',
+        color:'#ff3b3b',
+        shadow:'rgba(255,59,59,.4)'
+      },
+
+      raven:{
+        name:'Raven',
+        power:'Magia Oscura',
+        desc:'Raven domina poderes místicos extremadamente peligrosos mientras mantiene el control emocional.',
+        color:'#9b5cff',
+        shadow:'rgba(155,92,255,.4)'
+      },
+
+      cyborg:{
+        name:'Cyborg',
+        power:'Tecnología Suprema',
+        desc:'Mitad humano y mitad máquina. Especialista en tecnología, armas y energía mecánica.',
+        color:'#00d9ff',
+        shadow:'rgba(0,217,255,.4)'
+      },
+
+      starfire:{
+        name:'Starfire',
+        power:'Energía Cósmica',
+        desc:'Princesa de Tamaran con fuerza descomunal y explosiones de energía estelar.',
+        color:'#ff8c00',
+        shadow:'rgba(255,140,0,.4)'
+      },
+
+      beastboy:{
+        name:'Beast Boy',
+        power:'Transformación Animal',
+        desc:'Puede convertirse en cualquier animal y siempre trae humor al equipo.',
+        color:'#39ff88',
+        shadow:'rgba(57,255,136,.4)'
+      }
+
+    };
+
+    const overlay = document.getElementById('detailOverlay');
+    const modal = document.getElementById('detailModal');
+
+    function showTitan(key){
+
+      const titan = titansData[key];
+
+      document.getElementById('modalTitle').innerText = titan.name;
+      document.getElementById('modalTitle').style.color = titan.color;
+
+      const power = document.getElementById('modalPower');
+      power.innerText = titan.power;
+      power.style.background = titan.color;
+
+      document.getElementById('modalDesc').innerText = titan.desc;
+
+      const original = document.querySelector(`.card-${key} .titan-img-container`);
+
+      document.getElementById('modalSvgContainer').innerHTML = original.innerHTML;
+
+      modal.style.borderColor = titan.color;
+      modal.style.boxShadow = `0 20px 60px ${titan.shadow}`;
+
+      overlay.classList.add('active');
+
+    }
+
+    function closeTitan(){
+      overlay.classList.remove('active');
+    }
+
+    document.addEventListener('keydown',(e)=>{
+      if(e.key === 'Escape') closeTitan();
+    });
+
+    document.addEventListener('mousemove',(e)=>{
+
+      const spark = document.createElement('div');
+
+      spark.classList.add('spark');
+
+      const colors = [
+        '#00d9ff',
+        '#9b5cff',
+        '#ff3b3b',
+        '#39ff88',
+        '#ff8c00'
+      ];
+
+      spark.style.background = colors[Math.floor(Math.random()*colors.length)];
+
+      spark.style.left = e.pageX + 'px';
+      spark.style.top = e.pageY + 'px';
+
+      document.body.appendChild(spark);
+
+      setTimeout(()=>{
+        spark.remove();
+      },900);
+
+    });
+
+  </script>
+
 </body>
 </html>
+```
