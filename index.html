@@ -1,588 +1,430 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teen Titans | Hero Page</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      background:#050816;
-      color:white;
-      overflow-x:hidden;
-    }
-
-    ::selection{
-      background:#00f0ff;
-      color:black;
-    }
-
-    .navbar{
-      position:fixed;
-      top:0;
-      width:100%;
-      padding:18px 8%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      z-index:1000;
-      backdrop-filter:blur(15px);
-      background:rgba(0,0,0,.25);
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-
-    .logo{
-      font-size:1.7rem;
-      font-weight:800;
-      background:linear-gradient(90deg,#00e5ff,#8b5cf6,#ff3b5f);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      letter-spacing:2px;
-    }
-
-    .nav-links{
-      display:flex;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .nav-links a{
-      text-decoration:none;
-      color:white;
-      font-size:.95rem;
-      transition:.3s;
-      opacity:.8;
-    }
-
-    .nav-links a:hover{
-      opacity:1;
-      color:#00f0ff;
-    }
-
-    .hero{
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      padding:130px 8% 60px;
-      position:relative;
-      background:
-      radial-gradient(circle at top left,rgba(0,240,255,.15),transparent 30%),
-      radial-gradient(circle at bottom right,rgba(139,92,246,.15),transparent 30%),
-      linear-gradient(135deg,#050816,#0b1023,#131b38);
-    }
-
-    .hero::before{
-      content:"";
-      position:absolute;
-      width:550px;
-      height:550px;
-      background:#8b5cf6;
-      border-radius:50%;
-      filter:blur(180px);
-      opacity:.15;
-      animation:float 6s ease-in-out infinite;
-    }
-
-    @keyframes float{
-      0%,100%{transform:translateY(0px);}
-      50%{transform:translateY(-25px);}
-    }
-
-    .hero-content{
-      position:relative;
-      z-index:2;
-      max-width:900px;
-    }
-
-    .hero h1{
-      font-size:5.5rem;
-      font-weight:800;
-      line-height:1;
-      margin-bottom:25px;
-      text-transform:uppercase;
-      background:linear-gradient(to right,#00e5ff,#8b5cf6,#ff3b5f);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-shadow:0 0 25px rgba(0,240,255,.2);
-    }
-
-    .hero p{
-      font-size:1.15rem;
-      line-height:1.9;
-      color:#d6d9e8;
-      margin-bottom:35px;
-    }
-
-    .hero-buttons{
-      display:flex;
-      justify-content:center;
-      gap:18px;
-      flex-wrap:wrap;
-    }
-
-    .btn{
-      padding:15px 32px;
-      border:none;
-      border-radius:60px;
-      cursor:pointer;
-      font-weight:600;
-      transition:.35s;
-      font-size:1rem;
-    }
-
-    .btn-primary{
-      background:linear-gradient(90deg,#00e5ff,#8b5cf6);
-      color:white;
-      box-shadow:0 0 25px rgba(0,240,255,.35);
-    }
-
-    .btn-secondary{
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.15);
-      color:white;
-    }
-
-    .btn:hover{
-      transform:translateY(-5px) scale(1.03);
-    }
-
-    section{
-      padding:100px 8%;
-    }
-
-    .section-title{
-      text-align:center;
-      margin-bottom:70px;
-    }
-
-    .section-title h2{
-      font-size:3rem;
-      margin-bottom:10px;
-    }
-
-    .section-title p{
-      color:#cfd3e5;
-      max-width:700px;
-      margin:auto;
-      line-height:1.7;
-    }
-
-    .titans-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:35px;
-    }
-
-    .card{
-      position:relative;
-      overflow:hidden;
-      border-radius:30px;
-      min-height:540px;
-      padding:30px;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      transition:.45s;
-      border:1px solid rgba(255,255,255,.08);
-      background-size:cover;
-      background-position:center;
-      isolation:isolate;
-    }
-
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top,rgba(0,0,0,.95),rgba(0,0,0,.2));
-      z-index:-1;
-    }
-
-    .card:hover{
-      transform:translateY(-12px);
-    }
-
-    .card span{
-      font-size:.9rem;
-      font-weight:600;
-      margin-bottom:8px;
-      letter-spacing:2px;
-      text-transform:uppercase;
-    }
-
-    .card h3{
-      font-size:2.5rem;
-      margin-bottom:15px;
-    }
-
-    .card p{
-      line-height:1.8;
-      color:#f1f1f1;
-      font-size:.97rem;
-    }
-
-    .robin{
-      background-image:url('https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1200&auto=format&fit=crop');
-      box-shadow:0 0 25px rgba(255,0,0,.15);
-    }
-
-    .robin span,
-    .robin h3{
-      color:#ff4b4b;
-    }
-
-    .raven{
-      background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop');
-      box-shadow:0 0 25px rgba(139,92,246,.15);
-    }
-
-    .raven span,
-    .raven h3{
-      color:#b889ff;
-    }
-
-    .starfire{
-      background-image:url('https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=1200&auto=format&fit=crop');
-      box-shadow:0 0 25px rgba(255,140,0,.15);
-    }
-
-    .starfire span,
-    .starfire h3{
-      color:#ffb347;
-    }
-
-    .beastboy{
-      background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop');
-      box-shadow:0 0 25px rgba(0,255,106,.15);
-    }
-
-    .beastboy span,
-    .beastboy h3{
-      color:#59ff9a;
-    }
-
-    .cyborg{
-      background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1200&auto=format&fit=crop');
-      box-shadow:0 0 25px rgba(0,229,255,.15);
-    }
-
-    .cyborg span,
-    .cyborg h3{
-      color:#65e7ff;
-    }
-
-    .quote-section{
-      text-align:center;
-      background:linear-gradient(135deg,#0f172a,#111827,#0f172a);
-      border-top:1px solid rgba(255,255,255,.05);
-      border-bottom:1px solid rgba(255,255,255,.05);
-    }
-
-    .quote-box{
-      max-width:900px;
-      margin:auto;
-      padding:60px 40px;
-      border-radius:30px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(12px);
-    }
-
-    .quote-box h2{
-      font-size:3rem;
-      margin-bottom:25px;
-      color:#00f0ff;
-    }
-
-    #quote{
-      font-size:1.7rem;
-      line-height:1.7;
-      color:#f3f5ff;
-      min-height:80px;
-      transition:.4s;
-    }
-
-    footer{
-      padding:35px;
-      text-align:center;
-      background:#050816;
-      color:#a9b0c7;
-      font-size:.95rem;
-    }
-
-    .spark{
-      position:fixed;
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      pointer-events:none;
-      animation:spark .8s linear forwards;
-      z-index:99999;
-    }
-
-    @keyframes spark{
-      to{
-        transform:translateY(-40px) scale(0);
-        opacity:0;
-      }
-    }
-
-    @media(max-width:900px){
-
-      .hero h1{
-        font-size:3.5rem;
-      }
-
-      .section-title h2{
-        font-size:2.3rem;
-      }
-
-      .card{
-        min-height:500px;
-      }
-
-    }
-
-    @media(max-width:600px){
-
-      .navbar{
-        flex-direction:column;
-        gap:15px;
-      }
-
-      .hero{
-        padding-top:180px;
-      }
-
-      .hero h1{
-        font-size:2.8rem;
-      }
-
-      .hero p{
-        font-size:1rem;
-      }
-
-      .card h3{
-        font-size:2rem;
-      }
-
-      #quote{
-        font-size:1.2rem;
-      }
-
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teen Titans | Base de Datos</title>
+    <style>
+        /* --- ESTILOS GLOBALES (CSS) --- */
+        :root {
+            --bg-principal: #0b0c10;
+            --bg-tarjeta: #1f2833;
+            --texto-claro: #c5c6c7;
+            --texto-brillante: #ffffff;
+            /* Colores de los Personajes */
+            --robin: #e63946;
+            --robin-sec: #ffb703;
+            --raven: #6f2dbd;
+            --raven-sec: #3c096c;
+            --cyborg: #00b4d8;
+            --cyborg-sec: #0077b6;
+            --starfire: #ff007f;
+            --starfire-sec: #ffb703;
+            --beastboy: #38b000;
+            --beastboy-sec: #70e000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-claro);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        header {
+            text-align: center;
+            margin: 30px 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--texto-brillante);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        header p {
+            color: #858585;
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* --- CONTENEDOR DE PERSONAJES --- */
+        .titans-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1200px;
+            width: 90%;
+            margin-bottom: 50px;
+        }
+
+        /* --- TARJETAS PRO --- */
+        .titan-card {
+            background-color: var(--bg-tarjeta);
+            border-radius: 20px;
+            width: 220px;
+            height: 320px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .titan-card:hover {
+            transform: translateY(-15px) scale(1.03);
+        }
+
+        /* Renderizado de los Dibujos/SVGs */
+        .titan-img-container {
+            position: absolute;
+            top: 15px;
+            width: 85%;
+            height: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .titan-card:hover .titan-img-container {
+            transform: scale(1.1);
+        }
+
+        .titan-img-container svg {
+            width: 100%;
+            height: 100%;
+            drop-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .titan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--texto-brillante);
+            z-index: 2;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        /* Colores específicos por Tarjeta y Neón */
+        .card-robin:hover { border-color: var(--robin); box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4); }
+        .card-raven:hover { border-color: var(--raven); box-shadow: 0 10px 30px rgba(111, 45, 189, 0.4); }
+        .card-cyborg:hover { border-color: var(--cyborg); box-shadow: 0 10px 30px rgba(0, 180, 216, 0.4); }
+        .card-starfire:hover { border-color: var(--starfire); box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4); }
+        .card-beastboy:hover { border-color: var(--beastboy); box-shadow: 0 10px 30px rgba(56, 176, 0, 0.4); }
+
+        /* --- PANTALLA DE DETALLE (POPUP DINÁMICO) --- */
+        .detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 100;
+        }
+
+        .detail-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .detail-modal {
+            background: var(--bg-tarjeta);
+            width: 90%;
+            max-width: 700px;
+            border-radius: 25px;
+            padding: 40px;
+            position: relative;
+            transform: scale(0.7);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid transparent;
+            display: flex;
+            gap: 30px;
+        }
+
+        .detail-overlay.active .detail-modal {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2rem;
+            color: var(--texto-claro);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--texto-brillante);
+        }
+
+        .modal-left {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .modal-left svg {
+            width: 100%;
+            max-height: 250px;
+        }
+
+        .modal-right {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .modal-power {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            width: fit-content;
+            color: #000;
+        }
+
+        .modal-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .detail-modal {
+                flex-direction: column;
+                padding: 25px;
+                text-align: center;
+            }
+            .modal-left svg {
+                max-height: 150px;
+            }
+            .modal-power {
+                margin: 10px auto;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="logo">TEEN TITANS</div>
+    <header>
+        <h1>Teen Titans</h1>
+        <p>Base de Datos de la Torre de los Titanes</p>
+    </header>
 
-    <div class="nav-links">
-      <a href="#titans">Titanes</a>
-      <a href="#quotes">Frases</a>
-      <a href="#footer">Jump City</a>
-    </div>
-  </nav>
+    <main class="titans-container">
 
-  <header class="hero">
+        <div class="titan-card card-robin" onclick="showTitan('robin')">
+            <div class="titan-img-container">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="#e63946"/>
+                    <path d="M20 45 Q 35 35, 50 45 Q 65 35, 80 45 Q 70 60, 50 52 Q 30 60, 20 45 Z" fill="#000"/>
+                    <ellipse cx="38" cy="46" rx="6" ry="3" fill="#fff" transform="rotate(-5 38 46)"/>
+                    <ellipse cx="62" cy="46" rx="6" ry="3" fill="#fff" transform="rotate(5 62 46)"/>
+                    <path d="M15 55 L 30 90 L 50 65 L 70 90 L 85 55 Z" fill="#ffb703"/>
+                </svg>
+            </div>
+            <div class="titan-name">Robin</div>
+        </div>
 
-    <div class="hero-content">
+        <div class="titan-card card-raven" onclick="showTitan('raven')">
+            <div class="titan-img-container">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="#3c096c"/>
+                    <path d="M50 15 C 25 15, 20 50, 25 85 C 35 70, 45 65, 50 65 C 55 65, 65 70, 75 85 C 80 50, 75 15, 50 15 Z" fill="#6f2dbd"/>
+                    <path d="M50 30 L 35 55 L 65 55 Z" fill="#0b0c10"/>
+                    <polygon points="50,58 46,64 54,64" fill="#ff0055"/> 
+                </svg>
+            </div>
+            <div class="titan-name">Raven</div>
+        </div>
 
-      <h1>Protectores<br>de Jump City</h1>
+        <div class="titan-card card-cyborg" onclick="showTitan('cyborg')">
+            <div class="titan-img-container">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="#2b2d42"/>
+                    <path d="M50 20 L 80 20 L 80 80 L 50 80 Z" fill="#8d99ae"/>
+                    <circle cx="65" cy="45" r="10" fill="#00b4d8"/>
+                    <circle cx="65" cy="45" r="4" fill="#ef233c"/>
+                    <rect x="30" y="38" width="15" height="6" rx="3" fill="#8d99ae"/>
+                    <path d="M40 70 Q 50 60, 60 70" stroke="#fff" stroke-width="4" fill="none"/>
+                </svg>
+            </div>
+            <div class="titan-name">Cyborg</div>
+        </div>
 
-      <p>
-        Robin, Raven, Starfire, Beast Boy y Cyborg forman uno de los equipos
-        más icónicos del universo animado. Acción, poderes épicos, humor y
-        batallas legendarias en una página inspirada totalmente en los Teen Titans.
-      </p>
+        <div class="titan-card card-starfire" onclick="showTitan('starfire')">
+            <div class="titan-img-container">
+                <svg viewBox="0 0 100 100">
+                    <path d="M50 10 C 10 10, 10 70, 25 95 C 40 70, 60 70, 75 95 C 90 70, 90 10, 50 10 Z" fill="#ff007f"/>
+                    <circle cx="50" cy="50" r="30" fill="#ffb703"/>
+                    <ellipse cx="40" cy="48" rx="7" ry="5" fill="#38b000"/>
+                    <ellipse cx="60" cy="48" rx="7" ry="5" fill="#38b000"/>
+                    <circle cx="40" cy="48" r="2" fill="#fff"/>
+                    <circle cx="60" cy="48" r="2" fill="#fff"/>
+                </svg>
+            </div>
+            <div class="titan-name">Starfire</div>
+        </div>
 
-      <div class="hero-buttons">
-        <button class="btn btn-primary" onclick="changeQuote()">
-          Activar Frase Épica ⚡
-        </button>
+        <div class="titan-card card-beastboy" onclick="showTitan('beastboy')">
+            <div class="titan-img-container">
+                <svg viewBox="0 0 100 100">
+                    <path d="M15 40 L 30 45 L 25 30 Z" fill="#38b000"/>
+                    <path d="M85 40 L 70 45 L 75 30 Z" fill="#38b000"/>
+                    <circle cx="50" cy="55" r="32" fill="#38b000"/>
+                    <path d="M25 35 Q 50 15, 75 35 C 70 25, 30 25, 25 35 Z" fill="#70e000"/>
+                    <ellipse cx="40" cy="52" rx="5" ry="4" fill="#fff"/>
+                    <ellipse cx="60" cy="52" rx="5" ry="4" fill="#fff"/>
+                    <polygon points="50,65 47,72 53,72" fill="#222"/>
+                </svg>
+            </div>
+            <div class="titan-name">Beast Boy</div>
+        </div>
 
-        <button class="btn btn-secondary" onclick="scrollTitans()">
-          Ver Titanes 🛡️
-        </button>
-      </div>
+    </main>
 
-    </div>
-
-  </header>
-
-  <section id="titans">
-
-    <div class="section-title">
-      <h2>Conoce al Equipo</h2>
-
-      <p>
-        Cada Titán tiene una personalidad, energía y color distinto.
-        La página cambia completamente dependiendo del personaje.
-      </p>
-    </div>
-
-    <div class="titans-grid">
-
-      <div class="card robin">
-        <span>Líder Estratégico</span>
-        <h3>Robin</h3>
-
-        <p>
-          El cerebro del equipo. Robin es disciplinado, intenso y siempre tiene
-          un plan para derrotar a cualquier villano. Su energía roja representa
-          liderazgo y determinación.
-        </p>
-      </div>
-
-      <div class="card raven">
-        <span>Magia Oscura</span>
-        <h3>Raven</h3>
-
-        <p>
-          Misteriosa y poderosa. Raven controla energía mágica y mantiene una
-          personalidad fría, seria e icónica. Su vibra púrpura domina toda la escena.
-        </p>
-      </div>
-
-      <div class="card starfire">
-        <span>Princesa Tamaraniana</span>
-        <h3>Starfire</h3>
-
-        <p>
-          Alegre, poderosa y llena de energía. Starfire ilumina el equipo con
-          su personalidad brillante y sus poderes cósmicos anaranjados.
-        </p>
-      </div>
-
-      <div class="card beastboy">
-        <span>Cambio Animal</span>
-        <h3>Beast Boy</h3>
-
-        <p>
-          El más relajado y divertido del grupo. Puede transformarse en cualquier
-          animal y siempre trae humor incluso en las peleas más intensas.
-        </p>
-      </div>
-
-      <div class="card cyborg">
-        <span>Tecnología Suprema</span>
-        <h3>Cyborg</h3>
-
-        <p>
-          Mitad humano y mitad máquina. Cyborg combina fuerza, tecnología y carisma.
-          Además... nadie supera sus frases legendarias.
-        </p>
-      </div>
-
+    <div class="detail-overlay" id="detailOverlay" onclick="closeTitan()">
+        <div class="detail-modal" id="detailModal" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeTitan()">&times;</span>
+            <div class="modal-left" id="modalSvgContainer">
+                </div>
+            <div class="modal-right">
+                <h2 class="modal-title" id="modalTitle">Nombre</h2>
+                <span class="modal-power" id="modalPower">Poder</span>
+                <p class="modal-desc" id="modalDesc">Descripción larga del personaje...</p>
+            </div>
+        </div>
     </div>
 
-  </section>
+    <script>
+        /* --- LÓGICA INTERACTIVA (JAVASCRIPT) --- */
+        
+        // Data de los personajes pro
+        const titansData = {
+            robin: {
+                name: "Robin",
+                power: "Líder & Maestro de Artes Marciales",
+                desc: "Dick Grayson es el líder estratega de los Titanes. No tiene superpoderes, pero lo compensa con una agilidad asombrosa, tecnología de punta, gadgets y una determinación inquebrantable para proteger Jump City.",
+                color: "#e63946",
+                shadow: "rgba(230, 57, 70, 0.5)"
+            },
+            raven: {
+                name: "Raven",
+                power: "Magia Oscura & Telequinesis",
+                desc: "Hija híbrida del demonio Trigon. Raven es un ser de enorme poder místico. Debe mantener sus emociones bajo estricto control ('Azarath Metrion Zinthos') para evitar que su lado oscuro destruya todo a su alrededor.",
+                color: "#6f2dbd",
+                shadow: "rgba(111, 45, 189, 0.5)"
+            },
+            cyborg: {
+                name: "Cyborg",
+                power: "Tecnopatía & Cañón de Iones",
+                desc: "Mitad humano y mitad máquina, Victor Stone es el genio tecnológico y el músculo del equipo. Diseñó el auto de los titanes y la Torre. Le encantan los videojuegos, la carne asada y gritar ¡BOOYAH!",
+                color: "#00b4d8",
+                shadow: "rgba(0, 180, 216, 0.5)"
+            },
+            starfire: {
+                name: "Starfire",
+                power: "Energía Estelar & Vuelo",
+                desc: "Princesa del planeta Tamaran. Aunque es increíblemente dulce, amable y le encantan los gatos terrestres, posee una fuerza colosal y puede disparar ráfagas de energía ultra destructiva (Starbolts) cuando se enfada.",
+                color: "#ff007f",
+                shadow: "rgba(255, 0, 127, 0.5)"
+            },
+            beastboy: {
+                name: "Chico Bestia",
+                power: "Metamorfosis Animal",
+                desc: "Garfield Logan tiene el superpoder de transformarse en cualquier animal del planeta (o alienígena) que haya visto, manteniendo siempre su característico color verde. Es el bromista del grupo y un vegetariano de corazón.",
+                color: "#38b000",
+                shadow: "rgba(56, 176, 0, 0.5)"
+            }
+        };
 
-  <section class="quote-section" id="quotes">
+        const overlay = document.getElementById('detailOverlay');
+        const modal = document.getElementById('detailModal');
 
-    <div class="quote-box">
+        function showTitan(key) {
+            const titan = titansData[key];
+            
+            // Inyectar datos en el modal
+            document.getElementById('modalTitle').innerText = titan.name;
+            document.getElementById('modalTitle').style.color = titan.color;
+            
+            const powerBadge = document.getElementById('modalPower');
+            powerBadge.innerText = titan.power;
+            powerBadge.style.backgroundColor = titan.color;
+            
+            document.getElementById('modalDesc').innerText = titan.desc;
+            
+            // Clonar el dibujo SVG de la tarjeta para ponerlo en el modal
+            const originalCard = document.querySelector(`.card-${key} .titan-img-container`);
+            document.getElementById('modalSvgContainer').innerHTML = originalCard.innerHTML;
+            
+            // Cambiar bordes y sombras del modal según el personaje
+            modal.style.borderColor = titan.color;
+            modal.style.boxShadow = `0 20px 50px ${titan.shadow}`;
+            
+            // Cambiar sutilmente el fondo general
+            document.body.style.backgroundColor = "#050608";
 
-      <h2>Frases Legendarias</h2>
+            // Mostrar modal con animación
+            overlay.classList.add('active');
+        }
 
-      <p id="quote">
-        "Los Teen Titans siempre regresan más fuertes."
-      </p>
+        function closeTitan() {
+            overlay.classList.remove('active');
+            document.body.style.backgroundColor = "var(--bg-principal)";
+        }
 
-    </div>
-
-  </section>
-
-  <footer id="footer">
-    Página fanmade creada con HTML, CSS y JavaScript 💙
-  </footer>
-
-  <script>
-
-    const quotes = [
-      '"¡Booyah!" — Cyborg',
-      '"Azarath Metrion Zinthos" — Raven',
-      '"¡Titanes juntos!" — Robin',
-      '"La amistad hace más fuerte al equipo." — Starfire',
-      '"Ser raro también es genial." — Beast Boy'
-    ];
-
-    function changeQuote(){
-
-      const quote = document.getElementById('quote');
-
-      const randomQuote = quotes[Math.floor(Math.random()*quotes.length)];
-
-      quote.style.opacity = '0';
-      quote.style.transform = 'translateY(15px)';
-
-      setTimeout(()=>{
-
-        quote.innerText = randomQuote;
-
-        quote.style.opacity = '1';
-        quote.style.transform = 'translateY(0px)';
-
-      },250);
-
-    }
-
-    function scrollTitans(){
-
-      document.getElementById('titans').scrollIntoView({
-        behavior:'smooth'
-      });
-
-    }
-
-    document.addEventListener('mousemove',(e)=>{
-
-      const spark = document.createElement('div');
-
-      spark.classList.add('spark');
-
-      const colors = [
-        '#00e5ff',
-        '#8b5cf6',
-        '#ff3b5f',
-        '#59ff9a',
-        '#ffb347'
-      ];
-
-      spark.style.background = colors[Math.floor(Math.random()*colors.length)];
-
-      spark.style.left = e.pageX + 'px';
-      spark.style.top = e.pageY + 'px';
-
-      document.body.appendChild(spark);
-
-      setTimeout(()=>{
-        spark.remove();
-      },800);
-
-    });
-
-  </script>
-
+        // Cerrar con la tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeTitan();
+        });
+    </script>
 </body>
 </html>
-```
