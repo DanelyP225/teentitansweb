@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teen Titans</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Segoe UI, sans-serif;
+    }
+
+    body{
+      background: linear-gradient(135deg,#0b1020,#111827,#1e293b);
+      color:white;
+      overflow-x:hidden;
+    }
+
+    header{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:40px;
+      position:relative;
+    }
+
+    .bg-glow{
+      position:absolute;
+      width:500px;
+      height:500px;
+      background:#7c3aed;
+      border-radius:50%;
+      filter:blur(150px);
+      opacity:.3;
+      animation:float 6s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-20px);
+      }
+    }
+
+    .hero{
+      position:relative;
+      z-index:2;
+      max-width:800px;
+    }
+
+    .hero h1{
+      font-size:5rem;
+      text-transform:uppercase;
+      letter-spacing:5px;
+      margin-bottom:20px;
+      background:linear-gradient(to right,#00e5ff,#8b5cf6,#ff2d75);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:glow 2s infinite alternate;
+    }
+
+    @keyframes glow{
+      from{
+        filter:drop-shadow(0 0 10px #8b5cf6);
+      }
+      to{
+        filter:drop-shadow(0 0 25px #00e5ff);
+      }
+    }
+
+    .hero p{
+      font-size:1.2rem;
+      line-height:1.7;
+      color:#d1d5db;
+      margin-bottom:30px;
+    }
+
+    .btn{
+      padding:15px 35px;
+      border:none;
+      border-radius:50px;
+      background:linear-gradient(45deg,#8b5cf6,#00e5ff);
+      color:white;
+      font-size:1rem;
+      cursor:pointer;
+      transition:.3s;
+      font-weight:bold;
+      box-shadow:0 0 20px rgba(139,92,246,.5);
+    }
+
+    .btn:hover{
+      transform:scale(1.08);
+      box-shadow:0 0 30px rgba(0,229,255,.8);
+    }
+
+    section{
+      padding:80px 8%;
+    }
+
+    .title{
+      text-align:center;
+      font-size:3rem;
+      margin-bottom:50px;
+      color:#00e5ff;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      backdrop-filter:blur(10px);
+      border-radius:25px;
+      padding:30px;
+      transition:.4s;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      width:150px;
+      height:150px;
+      background:rgba(0,229,255,.15);
+      border-radius:50%;
+      top:-50px;
+      right:-50px;
+    }
+
+    .card:hover{
+      transform:translateY(-10px);
+      border-color:#00e5ff;
+      box-shadow:0 0 25px rgba(0,229,255,.3);
+    }
+
+    .card h3{
+      font-size:2rem;
+      margin-bottom:10px;
+    }
+
+    .card p{
+      color:#cbd5e1;
+      line-height:1.6;
+    }
+
+    .raven{
+      border-top:5px solid #8b5cf6;
+    }
+
+    .robin{
+      border-top:5px solid #ef4444;
+    }
+
+    .starfire{
+      border-top:5px solid #f97316;
+    }
+
+    .beastboy{
+      border-top:5px solid #22c55e;
+    }
+
+    .cyborg{
+      border-top:5px solid #38bdf8;
+    }
+
+    .quote{
+      margin-top:70px;
+      text-align:center;
+      font-size:1.5rem;
+      color:#d1d5db;
+      font-style:italic;
+      opacity:0;
+      transition:1s;
+    }
+
+    footer{
+      text-align:center;
+      padding:30px;
+      background:#0f172a;
+      color:#94a3b8;
+    }
+
+    .spark{
+      position:fixed;
+      width:10px;
+      height:10px;
+      background:#00e5ff;
+      border-radius:50%;
+      pointer-events:none;
+      animation:spark 1s linear forwards;
+    }
+
+    @keyframes spark{
+      to{
+        transform:translateY(-50px) scale(0);
+        opacity:0;
+      }
+    }
+
+    @media(max-width:768px){
+      .hero h1{
+        font-size:3rem;
+      }
+
+      .title{
+        font-size:2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="bg-glow"></div>
+
+    <div class="hero">
+      <h1>Teen Titans</h1>
+
+      <p>
+        Un equipo legendario de jóvenes héroes que protege Jump City mientras
+        luchan contra villanos épicos, dramas adolescentes y mucha locura.
+      </p>
+
+      <button class="btn" onclick="mostrarFrase()">
+        Activar Modo Titán ⚡
+      </button>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="title">Los Titanes</h2>
+
+    <div class="cards">
+
+      <div class="card robin">
+        <h3>🟥 Robin</h3>
+        <p>
+          El líder estratégico del equipo. Inteligente, disciplinado y siempre
+          preparado para cualquier batalla.
+        </p>
+      </div>
+
+      <div class="card raven">
+        <h3>🟪 Raven</h3>
+        <p>
+          Misteriosa y poderosa. Controla magia oscura y tiene una actitud fría
+          pero icónica.
+        </p>
+      </div>
+
+      <div class="card starfire">
+        <h3>🟧 Starfire</h3>
+        <p>
+          Energética, dulce y súper poderosa. Viene del planeta Tamaran y ama
+          la comida terrestre.
+        </p>
+      </div>
+
+      <div class="card beastboy">
+        <h3>🟩 Beast Boy</h3>
+        <p>
+          Divertido y caótico. Puede transformarse en cualquier animal que
+          imagine.
+        </p>
+      </div>
+
+      <div class="card cyborg">
+        <h3>🟦 Cyborg</h3>
+        <p>
+          Mitad humano, mitad máquina. El rey de la tecnología y las frases
+          épicas.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="quote" id="quote">
+      "¡Los Jóvenes Titanes nunca se rinden!"
+    </div>
+  </section>
+
+  <footer>
+    Página fanmade de Teen Titans 💙
+  </footer>
+
+  <script>
+    const frases = [
+      "¡Azarath Metrion Zinthos!",
+      "¡Booyah!",
+      "¡Titanes juntos!",
+      "Robin siempre tiene un plan.",
+      "¡Modo héroe activado!"
+    ];
+
+    function mostrarFrase(){
+      const quote = document.getElementById("quote");
+
+      let random =
+        frases[Math.floor(Math.random() * frases.length)];
+
+      quote.innerText = random;
+      quote.style.opacity = "1";
+
+      quote.animate([
+        { transform: "scale(0.8)", opacity: 0 },
+        { transform: "scale(1)", opacity: 1 }
+      ],{
+        duration:500
+      });
+    }
+
+    document.addEventListener("mousemove", (e)=>{
+      const spark = document.createElement("div");
+
+      spark.classList.add("spark");
+
+      spark.style.left = e.pageX + "px";
+      spark.style.top = e.pageY + "px";
+
+      document.body.appendChild(spark);
+
+      setTimeout(()=>{
+        spark.remove();
+      },1000);
+    });
+  </script>
+
+</body>
+</html>
